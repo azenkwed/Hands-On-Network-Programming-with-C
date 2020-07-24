@@ -26,9 +26,9 @@
 #define _WIN32_WINNT 0x0600
 #endif
 
-#include <winsock2.h>
+#include <WinSock2.h>
 #include <iphlpapi.h>
-#include <ws2tcpip.h>
+#include <WS2tcpip.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -39,7 +39,7 @@ int main() {
 
     WSADATA d;
     if (WSAStartup(MAKEWORD(2, 2), &d)) {
-        printf("Failed to initialize.\n");
+        fprintf(stderr, "Failed to initialize.\n");
         return -1;
     }
 
@@ -50,7 +50,7 @@ int main() {
         adapters = (PIP_ADAPTER_ADDRESSES)malloc(asize);
 
         if (!adapters) {
-            printf("Couldn't allocate %ld bytes for adapters.\n", asize);
+            fprintf(stderr, "Couldn't allocate %ld bytes for adapters.\n", asize);
             WSACleanup();
             return -1;
         }
@@ -63,7 +63,7 @@ int main() {
         } else if (r == ERROR_SUCCESS) {
             break;
         } else {
-            printf("Error from GetAdaptersAddresses: %d\n", r);
+            fprintf(stderr, "Error from GetAdaptersAddresses: %d\n", r);
             free(adapters);
             WSACleanup();
             return -1;
